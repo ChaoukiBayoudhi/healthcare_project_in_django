@@ -50,7 +50,7 @@ class Doctor(models.Model):
 def TestNameValidator(value):
         if not value.upper().startswith('TEST'):
             raise ValidationError("Test name must start with 'Test'")
-        if not value.upper().contains('HIV'):
+        if 'HIV' in value.upper():
             raise ValidationError("This test is not allowed.")
        
 #MedicalTest Model (ManyToMany | HealthRecord → MedicalTest )
