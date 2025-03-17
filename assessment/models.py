@@ -14,6 +14,7 @@ class Patient(models.Model):
     medical_history = models.TextField(blank=True, null=True)
 
     class Meta:
+        db_table='Patient'
         verbose_name = "Patient"
         verbose_name_plural = "Patients"
         ordering = ["full_name"]
