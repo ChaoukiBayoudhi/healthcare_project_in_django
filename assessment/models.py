@@ -6,15 +6,15 @@ from django.core.validators import ValidationError
 
 
 #Model Patient  (OneToOne | Patient → User)
-class Patient(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Patient(User):
+    #user = models.OneToOneField(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=255)
     date_of_birth = models.DateField(validators=[MinValueValidator(date(1950,1,1))])
     gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')])
     medical_history = models.TextField(blank=True, null=True)
 
     class Meta:
-        db_table='Patient'
+        db_table='patient'
         verbose_name = "Patient"
         verbose_name_plural = "Patients"
         ordering = ["full_name"]
@@ -36,13 +36,14 @@ class DoctorSpeciality(models.TextChoices):
     PSYCHIATRIST = 'Psychiatrist'
     UROLOGIST = 'Urologist'
 #Model Doctor (OneToOne | Doctor → User)
-class Doctor(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Doctor(User):
+    #user = models.OneToOneField(User, on_delete=models.CASCADE)
     specialty = models.CharField(max_length=20, choices=DoctorSpeciality.choices, default=DoctorSpeciality.GENERAL_PRACTITIONER)
     hospital = models.CharField(max_length=255, blank=True, null=True)
     years_of_experience = models.PositiveIntegerField(validators=[MinValueValidator(2),MaxValueValidator(10)])
 
     class Meta:
+        db_table='doctor'
         verbose_name = "Doctor"
         verbose_name_plural = "Doctors"
 
@@ -68,6 +69,7 @@ class MedicalTest(models.Model):
         if (date.today() - self.date).days > 7:
             raise ValidationError("Test date cannot be older than 7 days. You have to redo the test.")
     class Meta:
+        db_table='medical_test'
         verbose_name = "Medical Test"
         verbose_name_plural = "Medical Tests"
 
@@ -86,6 +88,7 @@ class HealthRecord(models.Model):
     medical_tests = models.ManyToManyField(MedicalTest, blank=True)
 
     class Meta:
+        db_table='health_record'
         verbose_name = "Health Record"
         verbose_name_plural = "Health Records"
 
@@ -102,6 +105,7 @@ class Prediction(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, blank=True)
 
     class Meta:
+        db_table='predication'
         verbose_name = "Prediction"
         verbose_name_plural = "Predictions"
 
