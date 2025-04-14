@@ -6,7 +6,8 @@ from django.core.validators import ValidationError
 
 
 #Model Patient  (OneToOne | Patient → User)
-class Patient(User):
+#class Patient(User):
+class Patient(models.Model):
     #user = models.OneToOneField(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=255)
     date_of_birth = models.DateField(validators=[MinValueValidator(date(1950,1,1))])
@@ -36,7 +37,8 @@ class DoctorSpeciality(models.TextChoices):
     PSYCHIATRIST = 'Psychiatrist'
     UROLOGIST = 'Urologist'
 #Model Doctor (OneToOne | Doctor → User)
-class Doctor(User):
+#class Doctor(User):
+class Doctor(models.Model):
     #user = models.OneToOneField(User, on_delete=models.CASCADE)
     specialty = models.CharField(max_length=20, choices=DoctorSpeciality.choices, default=DoctorSpeciality.GENERAL_PRACTITIONER)
     hospital = models.CharField(max_length=255, blank=True, null=True)
