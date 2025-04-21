@@ -3,8 +3,11 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Patient,Doctor,MedicalTest
-from .serializers import PatientSerializer,DoctorSerializer,MedicalTestSerializer
+from .models import HealthRecord, Patient,Doctor,MedicalTest
+from .serializers import (PatientSerializer,
+                    DoctorSerializer,
+                    MedicalTestSerializer,
+                    HealthRecordSerializer)
 #define the CRUD (Create, Read/Retreive, Update and Delete) on Patient model
 class PatientViewSet(viewsets.ModelViewSet):
     queryset=Patient.objects.all()
@@ -24,11 +27,20 @@ class DoctorViewSet(viewsets.ModelViewSet):
         #or
         #serialized_result=self.get_serializer(result,many=True)
         return Response(serialized_result.data,status=status.HTTP_200_OK)
-        @action(methods=['GET'],detail=False)
-        def get_patients_by_doctor(self,request,doctor_id):
-            pass
-
+    
 
 class MedicalTestViewSet(viewsets.ModelViewSet):
     queryset=MedicalTest.objects.all()
     serializer_class=MedicalTestSerializer
+
+class HealthRecordViewSet(viewsets.ModelViewSet):
+    queryset=HealthRecord.objects.all()
+    serializer_class=HealthRecordSerializer
+
+    @action(methods=['GET'],detail=False)
+    def get_patients_by_doctor(self,request,doctor_id):
+            try:
+                doctor=Doctor.objects.get(id=doctor_id)
+            except Doctor.DoesNotExist:
+                return Response(data='There is no doctor hasing the id '+doctor_id,
+                                status=status.HTTP_204_NO_CONTENT)

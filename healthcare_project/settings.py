@@ -79,8 +79,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "healthcare_db",
-        'USER':'postgres',
-        'PASSWORD':'admin123',
+        'USER':'user01',
+        'PASSWORD':'user01',
         'PORT':5432,
         'HOST':'localhost',
     }
