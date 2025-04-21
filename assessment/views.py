@@ -37,10 +37,15 @@ class HealthRecordViewSet(viewsets.ModelViewSet):
     queryset=HealthRecord.objects.all()
     serializer_class=HealthRecordSerializer
 
-    @action(methods=['GET'],detail=False)
+    @action(methods=['GET'],detail=False,
+    url_path='by_doctor/(?P<doctor_id>[\d+]+)'
+    )
     def get_patients_by_doctor(self,request,doctor_id):
             try:
-                doctor=Doctor.objects.get(id=doctor_id)
+                result=HealthRecord.objects.get(doctor__id=doctor_id)
+                patients=result.patient
+                serialized_result=PatientSerializer(patients,many=True)
+                return Response(serialized_result.data,status=status.HTTP_200_OK)
             except Doctor.DoesNotExist:
                 return Response(data='There is no doctor hasing the id '+doctor_id,
-                                status=status.HTTP_204_NO_CONTENT)
+                                status=status.HTTP_404_NOT_FOUND)

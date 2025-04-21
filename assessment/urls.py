@@ -1,5 +1,5 @@
 from rest_framework.routers import DefaultRouter
-from .views import PatientViewSet,DoctorViewSet,MedicalTestViewSet
+from .views import PatientViewSet,DoctorViewSet,MedicalTestViewSet,HealthRecordViewSet
 from django.urls import path, include
 router=DefaultRouter()
 
@@ -14,6 +14,7 @@ router=DefaultRouter()
 router.register(r'patients',PatientViewSet)
 router.register(r'doctors',DoctorViewSet)
 router.register(r'medical-tests',MedicalTestViewSet)
+router.register(r'health-records',HealthRecordViewSet)
 
 urlpatterns=[
     path('',include(router.urls)),

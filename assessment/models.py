@@ -50,7 +50,7 @@ class Doctor(models.Model):
         verbose_name_plural = "Doctors"
 
     def __str__(self):
-        return f"Dr. {self.user.get_full_name()}"
+        return f"Dr. {self.specialty}"
 def TestNameValidator(value):
         if not value.upper().startswith('TEST'):
             raise ValidationError("Test name must start with 'Test'")
